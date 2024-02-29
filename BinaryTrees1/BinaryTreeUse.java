@@ -278,6 +278,71 @@ public class BinaryTreeUse {
 
 		return leftS||rightS;
 	}
+
+	public static BinaryTreeNode<Integer> RemoveLeafNode(BinaryTreeNode<Integer> root){
+
+		if (root==null) {
+			return null;
+		}
+
+		if (root.left==null && root.right==null) {
+			return null;
+		}
+		root.right=RemoveLeafNode(root.right);
+		root.left=RemoveLeafNode(root.left);	
+	
+		return root;
+	}
+
+	public static boolean isBalanced(BinaryTreeNode<Integer> root){
+		if (root==null) {
+			return true;
+		}
+
+		int leftHeight=height(root.left);
+		int rightHeight=height(root.right);
+
+		if (Math.abs(leftHeight-rightHeight)>1) {
+			return false;
+		}
+
+		boolean isLeftbalanced=isBalanced(root.left);
+		boolean isRightbalanced=isBalanced(root.right);
+
+		return isLeftbalanced && isRightbalanced;
+			
+	}
+
+	public static void mirrorBinaryTree(BinaryTreeNode<Integer> root){
+		//Your code goes here
+		if (root==null) {
+			return;
+		}
+
+		// if (root.left!=null && root.right!=null) {
+		// 	BinaryTreeNode<Integer> temp=root.left;
+		// 	root.left=root.right;
+		// 	root.right=temp; 
+
+		// }
+
+		// if (root.left!=null && root.right==null) {
+		// 	root.right=root.left;
+		// 	root.right=null;
+		// }
+
+		// if (root.right!=null && root.left==null) {
+		// 	root.left=root.right;
+		// 	root.left=null;
+		// }
+
+		BinaryTreeNode<Integer> temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+
+		mirrorBinaryTree(root.left);
+		mirrorBinaryTree(root.right);
+	}
 	public static void main(String[] args) {
 		// BinaryTreeNode<Integer> root=new BinaryTreeNode<Integer>(1);//intializing and asssigning the value to the root node.
 		
@@ -307,10 +372,13 @@ public class BinaryTreeUse {
 		System.out.println("Largest number of the tree is "+LargestOfAll(root));
 		System.out.println("Number of nodes larger than "+X+" are "+LargerThanX(root, X));
 		System.out.println("Height of the tree is "+height(root));
-		System.out.println("Number of leaves on this tree is/are "+numberOfLeaves(root));
+		//System.out.println("Number of leaves on this tree is/are "+numberOfLeaves(root));
 		System.out.println("Elements at depth "+k+" are :");
 		elementsAtK(root, k);
 		int newX=3;
 		System.out.println(isNodePresent(root, newX));
+		//BinaryTreeNode<Integer> newRoot=RemoveLeafNode(root);
+		//printTreeLevelwise(newRoot);
+		System.out.println(isBalanced(root));
 	}
 }
